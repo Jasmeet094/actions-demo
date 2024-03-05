@@ -6,17 +6,16 @@ jobs:
     first_job: 
         runs-on: ubuntu-latest
         steps:
+            - name: checkout to repo
+              uses: actions/checkout@v4
+              
             - run: echo "welcome to learning of github actions"
               name: Welcome message
 
             - name: List files
-              run: ls
+              run: ls -ltrh
               
             - name: Read file
               run: cat README.md
 
-    second_job: 
-        runs-on: ubuntu-latest
-        steps: 
-             - name: tell-name
-               run: ls -ltrh          
+           
