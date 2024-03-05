@@ -8,14 +8,14 @@ jobs:
         steps:
             - name: checkout to repo
               uses: actions/checkout@v4
-              
-            - run: echo "welcome to learning of github actions"
-              name: Welcome message
 
-            - name: List files
-              run: ls -ltrh
+            - name: run multiple commands
+              run: |
+                echo "welcome to learning of github actions"
+                ls -ltrh
+                cat README.md
               
-            - name: Read file
-              run: cat README.md
+            - name: generate ASCII artwork
+              run: cowsay -f dragon "Yeehaw! I summon a dragon!" >> dragon.txt
 
            

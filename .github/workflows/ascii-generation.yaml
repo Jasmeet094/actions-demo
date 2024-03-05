@@ -1,0 +1,32 @@
+name: generate ASCII workflow  # name of the worklow
+
+on: push  # trigger/event
+
+jobs:    # jobs to be run 
+    first_job: 
+        runs-on: ubuntu-latest  # runner on which job will run
+        steps:    # steps/commands described , which will run as a part of the job
+
+            - name: checkout to repo
+              uses: actions/checkout@v4         # this action will checkout to the repo 
+
+            - name: run multiple commands
+              run: |
+                echo "welcome to learning of github actions"
+                ls -ltrh
+                cat README.md
+              
+            - name: install ascii artwork
+              run: sudo apt-get install cowsay -y  
+
+            - name: generate ASCII artwork
+              run: cowsay -f dragon "Yeehaw! I summon a dragon!" >> dragon.txt
+
+            - name: test file presence
+              run: grep -i "dragon" dragon.txt
+
+            - name: read file
+              run: cat dragon.txt
+           
+            - name: check files
+              run: ls -ltrah
