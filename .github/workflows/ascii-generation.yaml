@@ -3,7 +3,7 @@ name: generate ASCII workflow  # name of the worklow
 on: push  # trigger/event
 
 jobs:    # jobs to be run 
-    first_job: 
+    build_job: 
         runs-on: ubuntu-latest  # runner on which job will run
         steps:    # steps/commands described , which will run as a part of the job
 
@@ -22,11 +22,36 @@ jobs:    # jobs to be run
             - name: generate ASCII artwork
               run: cowsay -f dragon "Yeehaw! I summon a dragon!" >> dragon.txt
 
-            - name: test file presence
-              run: grep -i "dragon" dragon.txt
+            - name: upload dragon.txt
+              uses: actions/upload-artifact@v4  
+              with: 
+                name: dragon_file
+                path: dragon.txt
 
-            - name: read file
-              run: cat dragon.txt
+    test_job:
+        needs: build_job
+        runs-on: ubuntu-latest
+        steps:  
+            - name: download dragon.txt file        
+              uses: actions/download-artifact@v4 
+              with: 
+                  name: dragon_file
+
+            - name: grep file
+              run: grep -i "dragon" dragon.txt
            
             - name: check files
               run: ls -ltrah
+
+    deploy_job:
+        needs: test_job
+        runs-on: ubuntu-latest
+        steps:
+            - name: download dragon.txt file        
+              uses: actions/download-artifact@v4 
+              with: 
+                name: dragon_file
+
+            - name: cat the file
+              run: cat dragon.txt
+            
